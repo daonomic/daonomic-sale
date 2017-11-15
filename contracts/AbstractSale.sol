@@ -1,13 +1,14 @@
 pragma solidity ^0.4.15;
 
 
-import '../receive-adapters/daox-tokens/util/contracts/SafeMath.sol';
-import '../receive-adapters/contracts/CompatReceiveAdapter.sol';
-import '../receive-adapters/daox-tokens/contracts/standard/Token.sol';
-import '../receive-adapters/daox-tokens/contracts/external/ExternalToken.sol';
+import 'daonomic-util/contracts/SafeMath.sol';
+import 'daonomic-util/contracts/Ownable.sol';
+import 'daonomic-interfaces/contracts/Token.sol';
+import 'daonomic-interfaces/contracts/ExternalToken.sol';
+import 'daonomic-receivers/contracts/CompatReceiveAdapter.sol';
 
 
-contract AbstractSale is CompatReceiveAdapter {
+contract AbstractSale is CompatReceiveAdapter, Ownable {
     using SafeMath for uint256;
 
     event BonusChange(uint256 bonus);
@@ -75,12 +76,10 @@ contract AbstractSale is CompatReceiveAdapter {
         Withdraw(_token, _to, _amount);
     }
 
+    function verifyCanWithdraw(address _token, address _to, uint256 _amount) internal;
+
     function burnWithData(address _token, uint256 _amount, bytes _data) onlyOwner public {
         ExternalToken(_token).burn(_amount, _data);
         Burn(_token, _amount, _data);
-    }
-
-    function verifyCanWithdraw(address _token, address _to, uint256 _amount) internal {
-
     }
 }
