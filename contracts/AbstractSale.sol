@@ -1,10 +1,10 @@
 pragma solidity ^0.4.15;
 
 
-import '../util/contracts/SafeMath.sol';
+import '../receive-adapters/daox-tokens/util/contracts/SafeMath.sol';
 import '../receive-adapters/contracts/CompatReceiveAdapter.sol';
-import '../daox-tokens/contracts/standard/Token.sol';
-import '../daox-tokens/contracts/external/ExternalToken.sol';
+import '../receive-adapters/daox-tokens/contracts/standard/Token.sol';
+import '../receive-adapters/daox-tokens/contracts/external/ExternalToken.sol';
 
 
 contract AbstractSale is CompatReceiveAdapter {
