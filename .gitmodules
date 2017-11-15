@@ -1,3 +1,0 @@
-[submodule "receive-adapters"]
-	path = receive-adapters
-	url = https://github.com/daonomic/receive-adapters.git
