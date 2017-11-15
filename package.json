@@ -24,5 +24,8 @@
   "dependencies": {
     "daonomic-util": "0.0.2",
     "daonomic-receivers": "0.0.2"
+  },
+  "devDependencies": {
+    "daox-tokens": "0.0.3"
   }
 }
