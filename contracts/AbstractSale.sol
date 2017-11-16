@@ -1,6 +1,7 @@
 pragma solidity ^0.4.15;
 
 
+import './Sale.sol';
 import 'daonomic-util/contracts/SafeMath.sol';
 import 'daonomic-util/contracts/Ownable.sol';
 import 'daonomic-interfaces/contracts/Token.sol';
@@ -8,12 +9,9 @@ import 'daonomic-interfaces/contracts/ExternalToken.sol';
 import 'daonomic-receivers/contracts/CompatReceiveAdapter.sol';
 
 
-contract AbstractSale is CompatReceiveAdapter, Ownable {
+contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
     using SafeMath for uint256;
 
-    event BonusChange(uint256 bonus);
-    event RateChange(address token, uint256 rate);
-    event Purchase(address indexed buyer, address token, uint256 value, uint256 amount);
     event Withdraw(address token, address to, uint256 value);
     event Burn(address token, uint256 value, bytes data);
 

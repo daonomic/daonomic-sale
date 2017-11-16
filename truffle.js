@@ -3,8 +3,9 @@ var WalletSubprovider = require('web3-provider-engine/subproviders/wallet.js');
 var Web3Subprovider = require("web3-provider-engine/subproviders/web3.js");
 var Web3 = require("web3");
 var FilterSubprovider = require('web3-provider-engine/subproviders/filters.js')
+var Wallet = require("ethereumjs-wallet");
 
-function createEngine(url) {
+function createEngine(url, wallet) {
     var engine = new ProviderEngine();
     engine.addProvider(new WalletSubprovider(wallet, {}));
     engine.addProvider(new FilterSubprovider());
@@ -15,26 +16,23 @@ function createEngine(url) {
     return engine;
 }
 
-var ropsten = createEngine("http://node-ropsten:8545");
-var main = createEngine("http://node-main:8545");
+var config;
+for(var i=0; i < process.argv.length; i++) {
+    if (process.argv[i].startsWith("--config=")) {
+        config = process.argv[i].substring(9);
+    }
+}
+
+function getUserHome() {
+  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+}
+
+if (config && config.startsWith("~")) {
+    config = getUserHome() + config.substring(1);
+}
 
 module.exports = {
-    networks: {
-        development: {
-            host: "localhost",
-            port: 8545,
-            gas: 4500000,
-            network_id: "*"
-        },
-        ropsten: {
-            network_id: 3,
-        //            provider: engine,
-        //            from: address,
-            gas: 4500000,
-            gasPrice: 100000000000
-        }
-
-    },
+    networks: {},
     solc: {
         optimizer: {
             enabled: true,
@@ -42,3 +40,27 @@ module.exports = {
         }
     }
 };
+
+var networkConfig = {
+    gas: 1500000,
+    gasPrice: 100000000000
+};
+
+if (config) {
+    console.log("using config file: " + config);
+    var json = require(config);
+    var wallet = Wallet.fromPrivateKey(new Buffer(json.key, "hex"));
+    var engine = createEngine(json.url, wallet);
+    engine.start();
+    networkConfig.from = wallet.getAddressString();
+    networkConfig.network_id = json.network_id;
+    networkConfig.provider = engine;
+
+    module.exports.networks[json.name] = networkConfig;
+} else {
+    networkConfig.host = "localhost";
+    networkConfig.port = 8545;
+    networkConfig.network_id = "*";
+
+    module.exports.networks.development = networkConfig;
+}
