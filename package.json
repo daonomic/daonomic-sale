@@ -23,9 +23,10 @@
   "homepage": "https://github.com/daonomic/daonomic-sale",
   "dependencies": {
     "daonomic-util": "0.0.2",
-    "daonomic-receivers": "0.0.2"
+    "daonomic-receivers": "0.0.5"
   },
   "devDependencies": {
-    "daox-tokens": "0.0.3"
+    "daox-tokens": "0.0.3",
+    "daonomic-tests": "0.0.3"
   }
 }
