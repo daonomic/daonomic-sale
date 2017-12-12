@@ -23,6 +23,14 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
 
     function verifyCanWithdraw(address _token, address _to, uint256 _amount) internal;
 
+    function checkPurchaseValid(address _buyer, uint256 _amount) internal {
+
+    }
+
+    function onPurchase(address _buyer, address _token, uint256 _value, uint256 _amount) internal {
+
+    }
+
     function onReceive(address _token, address _from, uint256 _value, bytes _data) internal {
         uint256 tokens = getAmount(_token, _value);
         require(tokens > 0);
@@ -33,8 +41,10 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
             require(_data.length == 0);
             buyer = _from;
         }
-        Purchase(buyer, _token, _value, tokens);
+        checkPurchaseValid(buyer, tokens);
         doPurchase(buyer, tokens);
+        Purchase(buyer, _token, _value, tokens);
+        onPurchase(buyer, _token, _value, tokens);
     }
 
     function toBytes20(bytes b, uint256 _start) pure internal returns (bytes20 result) {

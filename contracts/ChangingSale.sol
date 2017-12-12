@@ -4,6 +4,9 @@ pragma solidity ^0.4.0;
 import "./AbstractSale.sol";
 
 
+/**
+ * @title This implementation of Sale saves rates and bonus in storage. Owner can change them
+ */
 contract ChangingSale is AbstractSale {
 
     event RateChange(address token, uint256 rate);
@@ -19,6 +22,11 @@ contract ChangingSale is AbstractSale {
     function setRate(address _token, uint256 _rate) onlyOwner public {
         rates[_token] = _rate;
         RateChange(_token, _rate);
+        if (_rate == 0) {
+            RateRemove(_token);
+        } else {
+            RateAdd(_token);
+        }
     }
 
     function getBonus() constant public returns (uint256) {
