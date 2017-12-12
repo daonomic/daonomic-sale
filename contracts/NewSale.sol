@@ -1,5 +1,4 @@
-pragma solidity ^0.4.15;
-
+pragma solidity ^0.4.18;
 
 import './Sale.sol';
 import '@daonomic/util/contracts/SafeMath.sol';
@@ -9,7 +8,7 @@ import '@daonomic/interfaces/contracts/ExternalToken.sol';
 import '@daonomic/receivers/contracts/CompatReceiveAdapter.sol';
 
 
-contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
+contract NewSale is Sale, CompatReceiveAdapter, Ownable {
     using SafeMath for uint256;
 
     event Withdraw(address token, address to, uint256 value);

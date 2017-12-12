@@ -23,6 +23,7 @@
   "homepage": "https://github.com/daonomic/sale",
   "dependencies": {
     "@daonomic/util": "0.0.2",
+    "@daonomic/interfaces": "0.0.3",
     "@daonomic/receivers": "0.0.6"
   },
   "devDependencies": {
