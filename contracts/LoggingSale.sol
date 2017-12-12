@@ -2,7 +2,7 @@ pragma solidity ^0.4.15;
 
 
 import "./AbstractSale.sol";
-import "daonomic-util/contracts/OwnableImpl.sol";
+import "@daonomic/util/contracts/OwnableImpl.sol";
 
 
 /**

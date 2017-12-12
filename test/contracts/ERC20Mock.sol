@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 
-import 'daox-tokens/contracts/standard/TokenImpl.sol';
+import '@daonomic/tokens/contracts/TokenImpl.sol';
 
 
 // mock class using StandardToken

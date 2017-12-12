@@ -1,5 +1,5 @@
 {
-  "name": "daonomic-sale",
+  "name": "@daonomic/sale",
   "version": "0.0.1",
   "description": "Sale contracts for Daonomic platform",
   "main": "truffle.js",
@@ -22,12 +22,12 @@
   },
   "homepage": "https://github.com/daonomic/daonomic-sale",
   "dependencies": {
-    "daonomic-util": "0.0.2",
-    "daonomic-receivers": "0.0.5"
+    "@daonomic/util": "0.0.2",
+    "@daonomic/receivers": "0.0.6"
   },
   "devDependencies": {
-    "daox-tokens": "0.0.3",
-    "daonomic-tests": "0.0.3",
+    "@daonomic/tokens": "0.0.1",
+    "@daonomic/tests-common": "0.0.3",
     "web3-provider-engine": "^13.3.3",
     "web3": "^0.20.2",
     "ethereumjs-wallet": "^0.6.0"

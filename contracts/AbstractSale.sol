@@ -2,11 +2,11 @@ pragma solidity ^0.4.15;
 
 
 import './Sale.sol';
-import 'daonomic-util/contracts/SafeMath.sol';
-import 'daonomic-util/contracts/Ownable.sol';
-import 'daonomic-interfaces/contracts/Token.sol';
-import 'daonomic-interfaces/contracts/ExternalToken.sol';
-import 'daonomic-receivers/contracts/CompatReceiveAdapter.sol';
+import '@daonomic/util/contracts/SafeMath.sol';
+import '@daonomic/util/contracts/Ownable.sol';
+import '@daonomic/interfaces/contracts/Token.sol';
+import '@daonomic/interfaces/contracts/ExternalToken.sol';
+import '@daonomic/receivers/contracts/CompatReceiveAdapter.sol';
 
 
 contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {

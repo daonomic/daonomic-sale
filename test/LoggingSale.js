@@ -1,7 +1,7 @@
 var LoggingSale = artifacts.require('LoggingSale.sol');
 var PayingToken = artifacts.require('PayingToken.sol');
 
-const tests = require("daonomic-tests");
+const tests = require("@daonomic/tests-common");
 const awaitEvent = tests.awaitEvent;
 const expectThrow = tests.expectThrow;
 const randomAddress = tests.randomAddress;

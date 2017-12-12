@@ -1,7 +1,7 @@
 pragma solidity ^0.4.0;
 
 
-import "daox-tokens/contracts/standard/NotifyingTokenImpl.sol";
+import "@daonomic/tokens/contracts/NotifyingTokenImpl.sol";
 
 
 contract PayingToken is NotifyingTokenImpl {
