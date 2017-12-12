@@ -11,16 +11,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daonomic/daonomic-sale.git"
+    "url": "git+https://github.com/daonomic/sale.git"
   },
   "keywords": [
     "ethereum"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/daonomic/daonomic-sale/issues"
+    "url": "https://github.com/daonomic/sale/issues"
   },
-  "homepage": "https://github.com/daonomic/daonomic-sale",
+  "homepage": "https://github.com/daonomic/sale",
   "dependencies": {
     "@daonomic/util": "0.0.2",
     "@daonomic/receivers": "0.0.6"
