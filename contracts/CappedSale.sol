@@ -11,13 +11,13 @@ contract CappedSale is AbstractSale {
         cap = _cap;
     }
 
-    function checkPurchaseValid(address _buyer, uint256 _amount) internal {
-        super.checkPurchaseValid(_buyer, _amount);
-        require(cap >= _amount);
+    function checkPurchaseValid(address buyer, uint256 amount, uint256 beforeBonus) internal {
+        super.checkPurchaseValid(buyer, amount, beforeBonus);
+        require(cap >= beforeBonus);
     }
 
-    function onPurchase(address _buyer, address _token, uint256 _value, uint256 _amount) internal {
-        super.onPurchase(_buyer, _token, _value, _amount);
-        cap = cap.sub(_amount);
+    function onPurchase(address buyer, address token, uint256 value, uint256 amount, uint256 beforeBonus) internal {
+        super.onPurchase(buyer, token, value, amount, beforeBonus);
+        cap = cap.sub(beforeBonus);
     }
 }

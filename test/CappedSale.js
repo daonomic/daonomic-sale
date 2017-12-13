@@ -31,4 +31,21 @@ contract("CappedSale", accounts => {
         sale.sendTransaction({from: accounts[1], value: 1})
     );
   });
+
+  it("should not take bonus into account", async () => {
+    var sale = await CappedSale.new(100, 0, bn("10"), 100);
+    var Purchase = sale.Purchase({});
+
+    await sale.sendTransaction({from: accounts[1], value: 10});
+    var purchase = await awaitEvent(Purchase);
+    assert.equal(purchase.args.buyer, accounts[1]);
+    assert.equal(purchase.args.value, 10);
+    assert.equal(purchase.args.amount, 200);
+    assert.equal(purchase.args.beforeBonus, 100);
+    assert.equal(purchase.args.token, 0);
+    await expectThrow(
+        sale.sendTransaction({from: accounts[1], value: 1})
+    );
+  });
+
 });

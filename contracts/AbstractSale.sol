@@ -23,16 +23,17 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
 
     function verifyCanWithdraw(address _token, address _to, uint256 _amount) internal;
 
-    function checkPurchaseValid(address /*_buyer*/, uint256 /*_amount*/) internal {
+    function checkPurchaseValid(address /*buyer*/, uint256 /*amount*/, uint256 /*beforeBonus*/) internal {
 
     }
 
-    function onPurchase(address /*_buyer*/, address /*_token*/, uint256 /*_value*/, uint256 /*_amount*/) internal {
+    function onPurchase(address /*buyer*/, address /*token*/, uint256 /*value*/, uint256 /*amount*/, uint256 /*beforeBonus*/) internal {
 
     }
 
     function onReceive(address _token, address _from, uint256 _value, bytes _data) internal {
-        uint256 tokens = getAmount(_token, _value);
+        uint256 beforeBonus = getAmount(_token, _value);
+        uint256 tokens = beforeBonus.add(beforeBonus.mul(getBonus()).div(100));
         require(tokens > 0);
         address buyer;
         if (_data.length == 20) {
@@ -41,10 +42,10 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
             require(_data.length == 0);
             buyer = _from;
         }
-        checkPurchaseValid(buyer, tokens);
+        checkPurchaseValid(buyer, tokens, beforeBonus);
         doPurchase(buyer, tokens);
-        Purchase(buyer, _token, _value, tokens);
-        onPurchase(buyer, _token, _value, tokens);
+        Purchase(buyer, _token, _value, tokens, beforeBonus);
+        onPurchase(buyer, _token, _value, tokens, beforeBonus);
     }
 
     function toBytes20(bytes b, uint256 _start) pure internal returns (bytes20 result) {
@@ -58,8 +59,7 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
     function getAmount(address _token, uint256 _value) constant public returns (uint256) {
         uint256 rate = getRate(_token);
         require(rate > 0);
-        uint256 beforeBonus = _value.mul(rate);
-        return beforeBonus.add(beforeBonus.mul(getBonus()).div(100));
+        return _value.mul(rate);
     }
 
     function withdraw(address _token, address _to, uint256 _amount) onlyOwner public {
