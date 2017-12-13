@@ -12,7 +12,7 @@ contract("LoggingSale", accounts => {
   }
 
   it("should log purchases", async () => {
-    var sale = await LoggingSale.new(0, bn("10"), 0);
+    var sale = await LoggingSale.new(0, bn("10000000000000000000"), 0);
     var Purchase = sale.Purchase({});
 
     await sale.sendTransaction({from: accounts[1], value: 100});
@@ -25,7 +25,7 @@ contract("LoggingSale", accounts => {
 
   it("should log purchases in other tokens", async () => {
     var paying = await PayingToken.new(accounts[2], 1000);
-    var sale = await LoggingSale.new(paying.address, bn("100"), 0);
+    var sale = await LoggingSale.new(paying.address, bn("100000000000000000000"), 0);
 
     var Purchase = sale.Purchase({});
 
@@ -38,14 +38,14 @@ contract("LoggingSale", accounts => {
   });
 
   it("should not accept other tokens", async () => {
-    var sale = await LoggingSale.new(0, bn("10"), 0);
+    var sale = await LoggingSale.new(0, bn("10000000000000000000"), 0);
     await expectThrow(
       sale.onTokenTransfer(accounts[2], 100, "", {from: accounts[8]})
     );
   });
 
   it("should withdraw ether", async () => {
-    var sale = await LoggingSale.new(0, bn("10"), 0);
+    var sale = await LoggingSale.new(0, bn("10000000000000000000"), 0);
     await sale.sendTransaction({from: accounts[1], value: 100});
 
     var address = randomAddress();
@@ -56,7 +56,7 @@ contract("LoggingSale", accounts => {
 
   it("should withdraw tokens", async () => {
     var paying = await PayingToken.new(accounts[3], 1000);
-    var sale = await LoggingSale.new(paying.address, bn("100"), 0);
+    var sale = await LoggingSale.new(paying.address, bn("100000000000000000000"), 0);
 
     await paying.transferAndCall(sale.address, 100, "", {from: accounts[3]});
     assert.equal(await paying.balanceOf(sale.address), 100)

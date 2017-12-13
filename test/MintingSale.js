@@ -18,7 +18,7 @@ contract("MintingSale", accounts => {
   }
 
   it("should mint if user sends ether", async () => {
-    var sale = await MintingSaleMock.new(token.address, 0, bn("10"), 0);
+    var sale = await MintingSaleMock.new(token.address, 0, bn("10000000000000000000"), 0);
     await token.transferOwnership(sale.address);
 
     await sale.sendTransaction({from: accounts[1], value: 5});

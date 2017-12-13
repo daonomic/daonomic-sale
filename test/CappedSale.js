@@ -11,7 +11,7 @@ contract("CappedSale", accounts => {
   }
 
   it("should let buy if cap not reached", async () => {
-    var sale = await CappedSale.new(100, 0, bn("10"), 0);
+    var sale = await CappedSale.new(100, 0, bn("10000000000000000000"), 0);
     var Purchase = sale.Purchase({});
 
     await sale.sendTransaction({from: accounts[1], value: 5});
@@ -23,7 +23,7 @@ contract("CappedSale", accounts => {
   });
 
   it("should throw if cap reached", async () => {
-    var sale = await CappedSale.new(100, 0, bn("10"), 0);
+    var sale = await CappedSale.new(100, 0, bn("10000000000000000000"), 0);
 
     await sale.sendTransaction({from: accounts[1], value: 5});
     await sale.sendTransaction({from: accounts[1], value: 5});
@@ -33,7 +33,7 @@ contract("CappedSale", accounts => {
   });
 
   it("should not take bonus into account", async () => {
-    var sale = await CappedSale.new(100, 0, bn("10"), 100);
+    var sale = await CappedSale.new(100, 0, bn("10000000000000000000"), 100);
     var Purchase = sale.Purchase({});
 
     await sale.sendTransaction({from: accounts[1], value: 10});

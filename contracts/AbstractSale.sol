@@ -59,7 +59,7 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
     function getAmount(address _token, uint256 _value) constant public returns (uint256) {
         uint256 rate = getRate(_token);
         require(rate > 0);
-        return _value.mul(rate);
+        return _value.mul(rate).div(10**18);
     }
 
     function withdraw(address _token, address _to, uint256 _amount) onlyOwner public {
