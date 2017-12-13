@@ -6,9 +6,11 @@ import "./AbstractSale.sol";
 
 contract CappedSale is AbstractSale {
     uint256 public cap;
+    uint256 public initialCap;
 
     function CappedSale(uint256 _cap) public {
         cap = _cap;
+        initialCap = _cap;
     }
 
     function checkPurchaseValid(address buyer, uint256 amount, uint256 beforeBonus) internal {
