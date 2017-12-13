@@ -23,11 +23,11 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
 
     function verifyCanWithdraw(address _token, address _to, uint256 _amount) internal;
 
-    function checkPurchaseValid(address _buyer, uint256 _amount) internal {
+    function checkPurchaseValid(address /*_buyer*/, uint256 /*_amount*/) internal {
 
     }
 
-    function onPurchase(address _buyer, address _token, uint256 _value, uint256 _amount) internal {
+    function onPurchase(address /*_buyer*/, address /*_token*/, uint256 /*_value*/, uint256 /*_amount*/) internal {
 
     }
 
@@ -59,7 +59,7 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
         uint256 rate = getRate(_token);
         require(rate > 0);
         uint256 beforeBonus = _value.mul(rate);
-        return beforeBonus.add(beforeBonus.mul(getBonus()).div(100)).div(10**18);
+        return beforeBonus.add(beforeBonus.mul(getBonus()).div(100));
     }
 
     function withdraw(address _token, address _to, uint256 _amount) onlyOwner public {

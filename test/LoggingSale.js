@@ -1,4 +1,4 @@
-var LoggingSale = artifacts.require('LoggingSale.sol');
+var LoggingSale = artifacts.require('LoggingSaleMock.sol');
 var PayingToken = artifacts.require('PayingToken.sol');
 
 const tests = require("@daonomic/tests-common");
@@ -7,18 +7,12 @@ const expectThrow = tests.expectThrow;
 const randomAddress = tests.randomAddress;
 
 contract("LoggingSale", accounts => {
-  let sale;
-
   function bn(value) {
     return new web3.BigNumber(value);
   }
 
-  beforeEach(async function() {
-    sale = await LoggingSale.new();
-    await sale.setRate(0, bn("10000000000000000000"));
-  });
-
   it("should log purchases", async () => {
+    var sale = await LoggingSale.new(0, bn("10"), 0);
     var Purchase = sale.Purchase({});
 
     await sale.sendTransaction({from: accounts[1], value: 100});
@@ -30,8 +24,8 @@ contract("LoggingSale", accounts => {
   });
 
   it("should log purchases in other tokens", async () => {
-    let paying = await PayingToken.new(accounts[2], 1000);
-    await sale.setRate(paying.address, bn("100000000000000000000"));
+    var paying = await PayingToken.new(accounts[2], 1000);
+    var sale = await LoggingSale.new(paying.address, bn("100"), 0);
 
     var Purchase = sale.Purchase({});
 
@@ -44,12 +38,14 @@ contract("LoggingSale", accounts => {
   });
 
   it("should not accept other tokens", async () => {
+    var sale = await LoggingSale.new(0, bn("10"), 0);
     await expectThrow(
       sale.onTokenTransfer(accounts[2], 100, "", {from: accounts[8]})
     );
   });
 
   it("should withdraw ether", async () => {
+    var sale = await LoggingSale.new(0, bn("10"), 0);
     await sale.sendTransaction({from: accounts[1], value: 100});
 
     var address = randomAddress();
@@ -59,8 +55,8 @@ contract("LoggingSale", accounts => {
   });
 
   it("should withdraw tokens", async () => {
-    let paying = await PayingToken.new(accounts[3], 1000);
-    await sale.setRate(paying.address, bn("100000000000000000000"));
+    var paying = await PayingToken.new(accounts[3], 1000);
+    var sale = await LoggingSale.new(paying.address, bn("100"), 0);
 
     await paying.transferAndCall(sale.address, 100, "", {from: accounts[3]});
     assert.equal(await paying.balanceOf(sale.address), 100)
