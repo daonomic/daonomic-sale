@@ -15,11 +15,11 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
     event Withdraw(address token, address to, uint256 value);
     event Burn(address token, uint256 value, bytes data);
 
-    function doPurchase(address buyer, uint256 amount) internal;
-
     function getBonus() constant public returns (uint256);
 
     function getRate(address _token) constant public returns (uint256);
+
+    function doPurchase(address buyer, uint256 amount) internal;
 
     function verifyCanWithdraw(address _token, address _to, uint256 _amount) internal;
 

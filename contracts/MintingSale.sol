@@ -10,8 +10,8 @@ import "./AbstractSale.sol";
 contract MintingSale is AbstractSale {
     MintableToken public token;
 
-    function MintingToken(MintableToken _token) public {
-        token = _token;
+    function MintingSale(address _token) public {
+        token = MintableToken(_token);
     }
 
     function doPurchase(address buyer, uint256 amount) internal {

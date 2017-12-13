@@ -1,7 +1,7 @@
 pragma solidity ^0.4.0;
 
 
-import "../../contracts/AbstractSale.sol";
+import "./AbstractSale.sol";
 
 
 contract OneRateSale is AbstractSale {
