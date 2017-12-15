@@ -25,6 +25,9 @@ contract("CappedSale", accounts => {
   it("should throw if cap reached", async () => {
     var sale = await CappedSale.new(100, 0, bn("10000000000000000000"), 0);
 
+    await expectThrow(
+        sale.sendTransaction({from: accounts[1], value: 11})
+    );
     await sale.sendTransaction({from: accounts[1], value: 5});
     await sale.sendTransaction({from: accounts[1], value: 5});
     await expectThrow(

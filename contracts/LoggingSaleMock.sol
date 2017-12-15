@@ -2,8 +2,8 @@ pragma solidity ^0.4.0;
 
 
 import "@daonomic/util/contracts/OwnableImpl.sol";
-import "../../contracts/OneRateSale.sol";
-import "../../contracts/LoggingSale.sol";
+import "./OneRateSale.sol";
+import "./LoggingSale.sol";
 
 
 contract LoggingSaleMock is OneRateSale, LoggingSale, OwnableImpl {
