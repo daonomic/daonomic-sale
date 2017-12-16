@@ -1,4 +1,4 @@
-var LoggingSale = artifacts.require('LoggingSaleMock.sol');
+var LoggingSale = artifacts.require('OneRateLoggingSale.sol');
 var PayingToken = artifacts.require('PayingToken.sol');
 
 const tests = require("@daonomic/tests-common");
