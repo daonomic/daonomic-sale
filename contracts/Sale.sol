@@ -8,7 +8,7 @@ contract Sale {
     /**
      * @dev This event should be emitted when user buys something
      */
-    event Purchase(address indexed buyer, address token, uint256 value, uint256 amount, uint256 beforeBonus);
+    event Purchase(address indexed buyer, address token, uint256 value, uint256 sold, uint256 bonus);
     /**
      * @dev Should be emitted if new payment method added
      */
@@ -21,9 +21,9 @@ contract Sale {
     /**
      * @dev Calculate rate for specified payment method
      */
-    function getRate(address _token) constant public returns (uint256);
+    function getRate(address token) constant public returns (uint256);
     /**
      * @dev Calculate current bonus in percents (10, 15, 30 etc)
      */
-    function getBonus() constant public returns (uint256);
+    function getBonus(uint256 sold) constant public returns (uint256);
 }

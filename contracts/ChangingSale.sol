@@ -29,7 +29,7 @@ contract ChangingSale is AbstractSale {
         }
     }
 
-    function getBonus() constant public returns (uint256) {
+    function getBonus(uint256) constant public returns (uint256) {
         return bonus;
     }
 

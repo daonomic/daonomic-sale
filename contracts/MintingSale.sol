@@ -14,8 +14,8 @@ contract MintingSale is AbstractSale {
         token = MintableToken(_token);
     }
 
-    function doPurchase(address buyer, uint256 amount) internal {
-        token.mint(buyer, amount);
+    function doPurchase(address buyer, uint256 sold, uint256 bonus) internal {
+        token.mint(buyer, sold.add(bonus));
     }
 
     function verifyCanWithdraw(address, address, uint256) internal {

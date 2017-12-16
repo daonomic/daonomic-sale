@@ -15,26 +15,10 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
     event Withdraw(address token, address to, uint256 value);
     event Burn(address token, uint256 value, bytes data);
 
-    function getBonus() constant public returns (uint256);
-
-    function getRate(address _token) constant public returns (uint256);
-
-    function doPurchase(address buyer, uint256 amount) internal;
-
-    function verifyCanWithdraw(address _token, address _to, uint256 _amount) internal;
-
-    function checkPurchaseValid(address /*buyer*/, uint256 /*amount*/, uint256 /*beforeBonus*/) internal {
-
-    }
-
-    function onPurchase(address /*buyer*/, address /*token*/, uint256 /*value*/, uint256 /*amount*/, uint256 /*beforeBonus*/) internal {
-
-    }
-
     function onReceive(address _token, address _from, uint256 _value, bytes _data) internal {
-        uint256 beforeBonus = getAmount(_token, _value);
-        uint256 tokens = beforeBonus.add(beforeBonus.mul(getBonus()).div(100));
-        require(tokens > 0);
+        uint256 sold = getSold(_token, _value);
+        require(sold > 0);
+        uint256 bonus = sold.mul(getBonus(sold)).div(100);
         address buyer;
         if (_data.length == 20) {
             buyer = address(toBytes20(_data, 0));
@@ -42,10 +26,30 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
             require(_data.length == 0);
             buyer = _from;
         }
-        checkPurchaseValid(buyer, tokens, beforeBonus);
-        doPurchase(buyer, tokens);
-        Purchase(buyer, _token, _value, tokens, beforeBonus);
-        onPurchase(buyer, _token, _value, tokens, beforeBonus);
+        checkPurchaseValid(buyer, sold, bonus);
+        doPurchase(buyer, sold, bonus);
+        Purchase(buyer, _token, _value, sold, bonus);
+        onPurchase(buyer, _token, _value, sold, bonus);
+    }
+
+    function getSold(address _token, uint256 _value) constant public returns (uint256) {
+        uint256 rate = getRate(_token);
+        require(rate > 0);
+        return _value.mul(rate).div(10**18);
+    }
+
+    function getBonus(uint256 sold) constant public returns (uint256);
+
+    function getRate(address _token) constant public returns (uint256);
+
+    function doPurchase(address buyer, uint256 sold, uint256 bonus) internal;
+
+    function checkPurchaseValid(address /*buyer*/, uint256 /*sold*/, uint256 /*bonus*/) internal {
+
+    }
+
+    function onPurchase(address /*buyer*/, address /*token*/, uint256 /*value*/, uint256 /*sold*/, uint256 /*bonus*/) internal {
+
     }
 
     function toBytes20(bytes b, uint256 _start) pure internal returns (bytes20 result) {
@@ -56,25 +60,21 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
         }
     }
 
-    function getAmount(address _token, uint256 _value) constant public returns (uint256) {
-        uint256 rate = getRate(_token);
-        require(rate > 0);
-        return _value.mul(rate).div(10**18);
-    }
-
-    function withdraw(address _token, address _to, uint256 _amount) onlyOwner public {
+    function withdraw(address _token, address _to, uint256 _value) onlyOwner public {
         require(_to != address(0));
-        verifyCanWithdraw(_token, _to, _amount);
+        verifyCanWithdraw(_token, _to, _value);
         if (_token == address(0)) {
-            _to.transfer(_amount);
+            _to.transfer(_value);
         } else {
-            Token(_token).transfer(_to, _amount);
+            Token(_token).transfer(_to, _value);
         }
-        Withdraw(_token, _to, _amount);
+        Withdraw(_token, _to, _value);
     }
 
-    function burnWithData(address _token, uint256 _amount, bytes _data) onlyOwner public {
-        ExternalToken(_token).burn(_amount, _data);
-        Burn(_token, _amount, _data);
+    function verifyCanWithdraw(address token, address to, uint256 amount) internal;
+
+    function burnWithData(address _token, uint256 _value, bytes _data) onlyOwner public {
+        ExternalToken(_token).burn(_value, _data);
+        Burn(_token, _value, _data);
     }
 }

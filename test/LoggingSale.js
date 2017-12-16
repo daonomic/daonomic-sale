@@ -19,7 +19,7 @@ contract("LoggingSale", accounts => {
     var purchase = await awaitEvent(Purchase);
     assert.equal(purchase.args.buyer, accounts[1]);
     assert.equal(purchase.args.value, 100);
-    assert.equal(purchase.args.amount, 1000);
+    assert.equal(purchase.args.sold, 1000);
     assert.equal(purchase.args.token, 0);
   });
 
@@ -33,7 +33,7 @@ contract("LoggingSale", accounts => {
     var purchase = await awaitEvent(Purchase);
     assert.equal(purchase.args.buyer, accounts[2]);
     assert.equal(purchase.args.value, 100);
-    assert.equal(purchase.args.amount, 10000);
+    assert.equal(purchase.args.sold, 10000);
     assert.equal(purchase.args.token, paying.address);
   });
 
