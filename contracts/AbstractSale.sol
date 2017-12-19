@@ -18,7 +18,7 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
     function onReceive(address _token, address _from, uint256 _value, bytes _data) internal {
         uint256 sold = getSold(_token, _value);
         require(sold > 0);
-        uint256 bonus = sold.mul(getBonus(sold)).div(100);
+        uint256 bonus = getBonus(sold);
         address buyer;
         if (_data.length == 20) {
             buyer = address(toBytes20(_data, 0));

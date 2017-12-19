@@ -23,7 +23,7 @@ contract Sale {
      */
     function getRate(address token) constant public returns (uint256);
     /**
-     * @dev Calculate current bonus in percents (10, 15, 30 etc)
+     * @dev Calculate current bonus in tokens
      */
     function getBonus(uint256 sold) constant public returns (uint256);
 }

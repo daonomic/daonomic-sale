@@ -24,7 +24,7 @@ contract OneRateSale is AbstractSale {
         }
     }
 
-    function getBonus(uint256) constant public returns (uint256) {
-        return bonus;
+    function getBonus(uint256 sold) constant public returns (uint256) {
+        return sold.mul(bonus).div(100);
     }
 }
