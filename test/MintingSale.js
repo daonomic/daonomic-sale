@@ -30,4 +30,14 @@ contract("MintingSale", accounts => {
     assert.equal(await token.balanceOf(accounts[2]), 500);
   });
 
+  it("should mint to other user if requested", async () => {
+    var sale = await MintingSaleMock.new(token.address, 0, bn("10000000000000000000"), 0);
+    await token.transferOwnership(sale.address);
+
+	var beneficiary = randomAddress();
+    await sale.receiveWithData(beneficiary, {from: accounts[1], value: 5});
+    assert.equal(await token.totalSupply(), 50);
+    assert.equal(await token.balanceOf(beneficiary), 50);
+  });
+
 });

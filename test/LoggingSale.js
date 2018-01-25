@@ -23,6 +23,19 @@ contract("LoggingSale", accounts => {
     assert.equal(purchase.args.token, 0);
   });
 
+  it("should sell to provided beneficiary", async () => {
+    var sale = await LoggingSale.new(0, bn("10000000000000000000"), 0);
+    var Purchase = sale.Purchase({});
+
+	var beneficiary = randomAddress();
+    await sale.receiveWithData(beneficiary, {from: accounts[0], value: 100});
+    var purchase = await awaitEvent(Purchase);
+    assert.equal(purchase.args.buyer, beneficiary);
+    assert.equal(purchase.args.value, 100);
+    assert.equal(purchase.args.sold, 1000);
+    assert.equal(purchase.args.token, 0);
+  });
+
   it("should log purchases in other tokens", async () => {
     var paying = await PayingToken.new(accounts[2], 1000);
     var sale = await LoggingSale.new(paying.address, bn("100000000000000000000"), 0);
