@@ -72,6 +72,9 @@ contract("WhitelistSale", accounts => {
   });
 
   it("should not let buy if not whitelisted", async () => {
+    await sale.transferRole("operator", accounts[1]);
+    await sale.setWhitelist(0, true, {from: accounts[1]});
+    await sale.setWhitelist(0, false, {from: accounts[1]});
     var Purchase = sale.Purchase({});
 
     await expectThrow(
