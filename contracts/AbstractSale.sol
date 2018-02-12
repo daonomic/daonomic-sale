@@ -60,6 +60,10 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
         }
     }
 
+    function withdrawEth(address _to, uint256 _value) onlyOwner public {
+        withdraw(address(0), _to, _value);
+    }
+
     function withdraw(address _token, address _to, uint256 _value) onlyOwner public {
         require(_to != address(0));
         verifyCanWithdraw(_token, _to, _value);

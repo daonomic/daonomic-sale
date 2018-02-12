@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.18;
 
 import "@daonomic/util/contracts/OwnableImpl.sol";
 import "../../contracts/OneRateSale.sol";
