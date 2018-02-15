@@ -41,19 +41,6 @@ contract("WhitelistSale", accounts => {
      );
   });
 
-  it("should let buy if 0x0 address whitelisted", async () => {
-    await sale.transferRole("operator", accounts[1]);
-    await sale.setWhitelist(0, true, {from: accounts[1]});
-    var Purchase = sale.Purchase({});
-
-    await sale.sendTransaction({from: accounts[5], value: 5});
-    var purchase = await awaitEvent(Purchase);
-    assert.equal(purchase.args.buyer, accounts[5]);
-    assert.equal(purchase.args.value, 5);
-    assert.equal(purchase.args.sold, 50);
-    assert.equal(purchase.args.token, 0);
-  });
-
   it("should let buy if buyer address whitelisted", async () => {
     await sale.transferRole("operator", accounts[1]);
     await sale.setWhitelist(accounts[2], true, {from: accounts[1]});

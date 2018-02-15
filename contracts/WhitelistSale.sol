@@ -8,11 +8,7 @@ contract WhitelistSale is AbstractSale, Secured {
 	event WhitelistChange(address indexed buyer, bool allow);
 
 	function isBuyerAllowed(address buyer) constant public returns (bool) {
-		if (whitelist[buyer]) {
-			return true;
-		} else {
-			return whitelist[address(0)];
-		}
+		return whitelist[buyer];
 	}
 
 	function setWhitelist(address buyer, bool allow) only("operator") public {
