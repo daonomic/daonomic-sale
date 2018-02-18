@@ -12,6 +12,10 @@ contract WhitelistSale is AbstractSale, Secured {
 	}
 
 	function setWhitelist(address buyer, bool allow) only("operator") public {
+		setWhitelistInternal(buyer, allow);
+	}
+
+	function setWhitelistInternal(address buyer, bool allow) internal {
 		whitelist[buyer] = allow;
 		WhitelistChange(buyer, allow);
 	}
