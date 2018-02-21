@@ -27,8 +27,8 @@ contract("WhitelistSale", accounts => {
      await sale.transferRole("operator", accounts[1]);
      var address = randomAddress();
      await sale.setWhitelist(address, true, {from: accounts[1]});
-     assert.equal(await sale.isBuyerAllowed(address), true);
-     assert.equal(await sale.isBuyerAllowed(randomAddress()), false);
+     assert.equal(await sale.isInWhitelist(address), true);
+     assert.equal(await sale.isInWhitelist(randomAddress()), false);
   });
 
   it("should not let others change whitelist", async () => {
