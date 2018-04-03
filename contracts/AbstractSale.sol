@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.21;
 
 
 import './Sale.sol';
@@ -28,7 +28,7 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
         }
         checkPurchaseValid(buyer, sold, bonus);
         doPurchase(buyer, sold, bonus);
-        Purchase(buyer, _token, _value, sold, bonus);
+        emit Purchase(buyer, _token, _value, sold, bonus);
         onPurchase(buyer, _token, _value, sold, bonus);
     }
 
@@ -72,13 +72,13 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
         } else {
             Token(_token).transfer(_to, _value);
         }
-        Withdraw(_token, _to, _value);
+        emit Withdraw(_token, _to, _value);
     }
 
     function verifyCanWithdraw(address token, address to, uint256 amount) internal;
 
     function burnWithData(address _token, uint256 _value, bytes _data) onlyOwner public {
         ExternalToken(_token).burn(_value, _data);
-        Burn(_token, _value, _data);
+        emit Burn(_token, _value, _data);
     }
 }

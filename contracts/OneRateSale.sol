@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.21;
 
 
 import "./AbstractSale.sol";
@@ -13,7 +13,7 @@ contract OneRateSale is AbstractSale {
         token = _token;
         rate = _rate;
         bonus = _bonus;
-        RateAdd(_token);
+        emit RateAdd(_token);
     }
 
     function getRate(address _token) constant public returns (uint256) {

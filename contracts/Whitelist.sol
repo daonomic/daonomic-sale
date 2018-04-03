@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.21;
 
 import "@daonomic/util/contracts/Secured.sol";
 
@@ -16,6 +16,6 @@ contract Whitelist is Secured {
 
 	function setWhitelistInternal(address addr, bool allow) internal {
 		whitelist[addr] = allow;
-		WhitelistChange(addr, allow);
+		emit WhitelistChange(addr, allow);
 	}
 }

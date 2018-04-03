@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.21;
 
 import "./AbstractSale.sol";
 
@@ -12,6 +12,6 @@ contract BonusChangingSale is AbstractSale {
 
 	function setBonus(uint256 _bonus) onlyOwner public {
 		bonus = _bonus;
-		BonusChange(_bonus);
+		emit BonusChange(_bonus);
 	}
 }

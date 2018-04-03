@@ -1,5 +1,5 @@
 pragma experimental ABIEncoderV2;
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.21;
 
 import "./AbstractSale.sol";
 
@@ -18,11 +18,11 @@ contract RatesChangingSale is AbstractSale {
 
 	function setRate(address _token, uint256 _rate) onlyOwner public {
 		rates[_token] = _rate;
-		RateChange(_token, _rate);
+		emit RateChange(_token, _rate);
 		if (_rate == 0) {
-			RateRemove(_token);
+			emit RateRemove(_token);
 		} else {
-			RateAdd(_token);
+			emit RateAdd(_token);
 		}
 	}
 
