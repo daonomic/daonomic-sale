@@ -8,7 +8,7 @@ contract Sale {
     /**
      * @dev This event should be emitted when user buys something
      */
-    event Purchase(address indexed buyer, address token, uint256 value, uint256 sold, uint256 bonus);
+    event Purchase(address indexed buyer, address token, uint256 value, uint256 sold, uint256 bonus, bytes txId);
     /**
      * @dev Should be emitted if new payment method added
      */

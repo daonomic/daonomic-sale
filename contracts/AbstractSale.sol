@@ -5,31 +5,40 @@ import './Sale.sol';
 import '@daonomic/util/contracts/SafeMath.sol';
 import '@daonomic/util/contracts/Ownable.sol';
 import '@daonomic/interfaces/contracts/Token.sol';
-import '@daonomic/interfaces/contracts/ExternalToken.sol';
-import '@daonomic/receivers/contracts/CompatReceiveAdapter.sol';
+import "@daonomic/util/contracts/Secured.sol";
 
 
-contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
+contract AbstractSale is Sale, Ownable, Secured {
     using SafeMath for uint256;
 
-    event Withdraw(address token, address to, uint256 value);
-    event Burn(address token, uint256 value, bytes data);
+    event Withdraw(address to, uint256 value);
 
-    function onReceive(address _token, address _from, uint256 _value, bytes _data) internal {
+    function () payable public {
+        receiveWithData("");
+    }
+
+    function receiveWithData(bytes _data) payable public {
+        if (_data.length == 20) {
+            onReceivePrivate(address(toBytes20(_data, 0)), address(0), msg.value, "");
+        } else {
+            require(_data.length == 0);
+            onReceivePrivate(msg.sender, address(0), msg.value, "");
+        }
+    }
+
+    function onReceive(address _buyer, address _token, uint256 _value, bytes _txId) only("operator") public {
+        require(_token != address(0));
+        onReceivePrivate(_buyer, _token, _value, _txId);
+    }
+
+    function onReceivePrivate(address _buyer, address _token, uint256 _value, bytes _txId) private {
         uint256 sold = getSold(_token, _value);
         require(sold > 0);
         uint256 bonus = getBonus(sold);
-        address buyer;
-        if (_data.length == 20) {
-            buyer = address(toBytes20(_data, 0));
-        } else {
-            require(_data.length == 0);
-            buyer = _from;
-        }
-        checkPurchaseValid(buyer, sold, bonus);
-        doPurchase(buyer, sold, bonus);
-        emit Purchase(buyer, _token, _value, sold, bonus);
-        onPurchase(buyer, _token, _value, sold, bonus);
+        checkPurchaseValid(_buyer, sold, bonus);
+        doPurchase(_buyer, sold, bonus);
+        emit Purchase(_buyer, _token, _value, sold, bonus, _txId);
+        onPurchase(_buyer, _token, _value, sold, bonus);
     }
 
     function getSold(address _token, uint256 _value) constant public returns (uint256) {
@@ -52,7 +61,7 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
 
     }
 
-    function toBytes20(bytes b, uint256 _start) pure internal returns (bytes20 result) {
+    function toBytes20(bytes b, uint256 _start) pure private returns (bytes20 result) {
         require(_start + 20 <= b.length);
         assembly {
             let from := add(_start, add(b, 0x20))
@@ -61,24 +70,7 @@ contract AbstractSale is Sale, CompatReceiveAdapter, Ownable {
     }
 
     function withdrawEth(address _to, uint256 _value) onlyOwner public {
-        withdraw(address(0), _to, _value);
-    }
-
-    function withdraw(address _token, address _to, uint256 _value) onlyOwner public {
-        require(_to != address(0));
-        verifyCanWithdraw(_token, _to, _value);
-        if (_token == address(0)) {
-            _to.transfer(_value);
-        } else {
-            Token(_token).transfer(_to, _value);
-        }
-        emit Withdraw(_token, _to, _value);
-    }
-
-    function verifyCanWithdraw(address token, address to, uint256 amount) internal;
-
-    function burnWithData(address _token, uint256 _value, bytes _data) onlyOwner public {
-        ExternalToken(_token).burn(_value, _data);
-        emit Burn(_token, _value, _data);
+        _to.transfer(_value);
+        emit Withdraw(_to, _value);
     }
 }

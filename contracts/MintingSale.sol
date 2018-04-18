@@ -17,8 +17,4 @@ contract MintingSale is AbstractSale {
     function doPurchase(address buyer, uint256 sold, uint256 bonus) internal {
         token.mint(buyer, sold.add(bonus));
     }
-
-    function verifyCanWithdraw(address, address, uint256) internal {
-
-    }
 }

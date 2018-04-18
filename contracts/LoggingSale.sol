@@ -11,8 +11,4 @@ contract LoggingSale is AbstractSale {
     function doPurchase(address, uint256, uint256) internal {
 
     }
-
-    function verifyCanWithdraw(address, address, uint256) internal {
-
-    }
 }
