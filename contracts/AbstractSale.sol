@@ -11,6 +11,7 @@ import "@daonomic/util/contracts/Secured.sol";
 contract AbstractSale is Sale, Ownable, Secured {
     using SafeMath for uint256;
 
+    mapping(address => string) xpubs;
     event Withdraw(address to, uint256 value);
 
     function () payable public {
@@ -72,5 +73,13 @@ contract AbstractSale is Sale, Ownable, Secured {
     function withdrawEth(address _to, uint256 _value) onlyOwner public {
         _to.transfer(_value);
         emit Withdraw(_to, _value);
+    }
+
+    function addXPub(address token, string xpub) internal {
+        xpubs[token] = xpub;
+    }
+
+    function getXPub(address token) constant public returns (string) {
+        return xpubs[token];
     }
 }

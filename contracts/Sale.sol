@@ -26,4 +26,8 @@ contract Sale {
      * @dev Calculate current bonus in tokens
      */
     function getBonus(uint256 sold) constant public returns (uint256);
+    /**
+     * @dev get xPub key for payment method (if applicable)
+     */
+    function getXPub(address token) constant public returns (string);
 }
