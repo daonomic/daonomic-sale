@@ -1,9 +1,8 @@
 pragma solidity ^0.4.0;
 
-import "./Sale.sol";
-import "@daonomic/util/contracts/Ownable.sol";
+import "./AbstractSale.sol";
 
-contract XPubStorage is Ownable, Sale {
+contract XPubStorage is AbstractSale {
     event XPubChange(address token, string xpub);
     mapping(address => string) xpubs;
 
