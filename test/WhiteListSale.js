@@ -31,11 +31,29 @@ contract("WhitelistSale", accounts => {
      assert.equal(await sale.isInWhitelist(randomAddress()), false);
   });
 
+  it("should let owner add some addresses to whitelist", async () => {
+     var address1 = randomAddress();
+     var address2 = randomAddress();
+     var address3 = randomAddress();
+     await sale.addToWhitelist([address1, address2, address3]);
+     assert.equal(await sale.isInWhitelist(address1), true);
+     assert.equal(await sale.isInWhitelist(address2), true);
+     assert.equal(await sale.isInWhitelist(address3), true);
+     assert.equal(await sale.isInWhitelist(randomAddress()), false);
+  });
+
+  it("should not let others add some addresses to whitelist", async () => {
+     var address1 = randomAddress();
+     var address2 = randomAddress();
+     var address3 = randomAddress();
+     await expectThrow(
+        sale.addToWhitelist([address1, address2, address3], {from: accounts[1]})
+     );
+  });
+
   it("should not let others change whitelist", async () => {
      await sale.transferRole("operator", accounts[1]);
-     await expectThrow(
-        sale.setWhitelist(randomAddress(), true, {from: accounts[0]})
-     );
+     await sale.setWhitelist(randomAddress(), true, {from: accounts[0]});
      await expectThrow(
         sale.setWhitelist(randomAddress(), true, {from: accounts[2]})
      );
