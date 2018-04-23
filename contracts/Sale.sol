@@ -27,7 +27,7 @@ contract Sale {
      */
     function getBonus(uint256 sold) constant public returns (uint256);
     /**
-     * @dev get xPub key for payment method (if applicable)
+     * @dev get xpub key for payment method (if applicable)
      */
     function getXPub(address token) constant public returns (string);
 }
