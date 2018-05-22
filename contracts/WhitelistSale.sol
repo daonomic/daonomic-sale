@@ -8,4 +8,8 @@ contract WhitelistSale is AbstractSale, Whitelist {
 		super.checkPurchaseValid(buyer, sold, bonus);
 		require(isInWhitelist(buyer));
 	}
+
+	function canBuy(address _address) constant public returns (bool) {
+		return isInWhitelist(_address);
+	}
 }

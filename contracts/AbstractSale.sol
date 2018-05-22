@@ -61,6 +61,10 @@ contract AbstractSale is Sale, Ownable, Secured {
 
     }
 
+    function canBuy(address _address) constant public returns (bool) {
+        return true;
+    }
+
     function toBytes20(bytes b, uint256 _start) pure private returns (bytes20 result) {
         require(_start + 20 <= b.length);
         assembly {
