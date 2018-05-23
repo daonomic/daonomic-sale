@@ -11,15 +11,10 @@ import "@daonomic/util/contracts/Secured.sol";
 contract AbstractSale is Ownable, Sale, Secured {
     using SafeMath for uint256;
 
-    address public signer;
     event Withdraw(address to, uint256 value);
 
     function () payable public {
         onReceivePrivate(msg.sender, address(0), msg.value, "");
-    }
-
-    function setSigner(address _signer) onlyOwner public {
-        signer = _signer;
     }
 
     function receiveWithData(bytes _data) payable public {
@@ -29,7 +24,7 @@ contract AbstractSale is Ownable, Sale, Secured {
 
     function receiveFrom(address _buyer, bytes _txId, uint _value, uint8 _v, bytes32 _r, bytes32 _s) payable public {
         var hash = keccak256(_value, msg.sender);
-        require(ecrecover(hash, _v, _r, _s) == signer);
+        require(ecrecover(hash, _v, _r, _s) == getRole("operator"));
         onReceivePrivate(_buyer, address(0), _value, _txId);
     }
 
