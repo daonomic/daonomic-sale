@@ -1,6 +1,6 @@
 {
   "name": "@daonomic/sale",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "description": "Sale contracts for Daonomic platform",
   "main": "truffle.js",
   "directories": {
@@ -26,7 +26,7 @@
     "@daonomic/interfaces": "0.1.7"
   },
   "devDependencies": {
-    "@daonomic/tokens": "~0.1",
+    "@daonomic/tokens": "0.1.12",
     "@daonomic/tests-common": "~0.1"
   }
 }
