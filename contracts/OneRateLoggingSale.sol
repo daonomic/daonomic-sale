@@ -8,7 +8,7 @@ import "@daonomic/util/contracts/SecuredImpl.sol";
 
 
 contract OneRateLoggingSale is OwnableImpl, SecuredImpl, OneRateSale, LoggingSale {
-    function OneRateLoggingSale(address _token, uint256 _rate, uint256 _bonus) OneRateSale(_token, _rate, _bonus) public {
+    constructor(address _token, uint256 _rate, uint256 _bonus) OneRateSale(_token, _rate, _bonus) public {
 
     }
 }

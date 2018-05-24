@@ -1,11 +1,10 @@
 pragma solidity ^0.4.21;
 
 
-import './Sale.sol';
 import '@daonomic/util/contracts/SafeMath.sol';
 import '@daonomic/util/contracts/Ownable.sol';
-import '@daonomic/interfaces/contracts/Token.sol';
 import "@daonomic/util/contracts/Secured.sol";
+import './Sale.sol';
 
 
 contract AbstractSale is Ownable, Sale, Secured {

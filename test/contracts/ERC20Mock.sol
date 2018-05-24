@@ -7,7 +7,7 @@ import '@daonomic/tokens/contracts/TokenImpl.sol';
 // mock class using StandardToken
 contract ERC20Mock is TokenImpl {
 
-  function ERC20Mock(address initialAccount, uint256 initialBalance) public {
+  constructor(address initialAccount, uint256 initialBalance) public {
     balances[initialAccount] = initialBalance;
     total = initialBalance;
   }

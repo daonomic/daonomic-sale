@@ -9,7 +9,7 @@ contract OneRateSale is AbstractSale {
     uint256 public rate;
     uint256 public bonus;
 
-    function OneRateSale(address _token, uint256 _rate, uint256 _bonus) public {
+    constructor(address _token, uint256 _rate, uint256 _bonus) public {
         token = _token;
         rate = _rate;
         bonus = _bonus;

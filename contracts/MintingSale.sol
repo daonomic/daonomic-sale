@@ -10,7 +10,7 @@ import "./AbstractSale.sol";
 contract MintingSale is AbstractSale {
     MintableToken public token;
 
-    function MintingSale(address _token) public {
+    constructor(address _token) public {
         token = MintableToken(_token);
     }
 

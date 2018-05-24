@@ -8,7 +8,7 @@ contract PeriodSale is AbstractSale {
 	uint256 public start;
 	uint256 public end;
 
-	function PeriodSale(uint256 _start, uint256 _end) public {
+	constructor(uint256 _start, uint256 _end) public {
 		start = _start;
 		end = _end;
 	}

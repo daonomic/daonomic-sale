@@ -7,7 +7,7 @@ import "@daonomic/util/contracts/SecuredImpl.sol";
 import "../../contracts/WhitelistSale.sol";
 
 contract WhitelistSaleMock is OwnableImpl, SecuredImpl, OneRateSale, LoggingSale, WhitelistSale {
-	function WhitelistSaleMock(address _token, uint256 _rate, uint256 _bonus) OneRateSale(_token, _rate, _bonus) public {
+	constructor(address _token, uint256 _rate, uint256 _bonus) OneRateSale(_token, _rate, _bonus) public {
 
 	}
 }

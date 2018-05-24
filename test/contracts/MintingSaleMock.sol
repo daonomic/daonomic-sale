@@ -8,7 +8,7 @@ import "@daonomic/util/contracts/SecuredImpl.sol";
 
 
 contract MintingSaleMock is OwnableImpl, SecuredImpl, OneRateSale, MintingSale {
-    function MintingSaleMock(address _mintableToken, address _token, uint256 _rate, uint256 _bonus) OneRateSale(_token, _rate, _bonus) MintingSale(_mintableToken) public {
+    constructor(address _mintableToken, address _token, uint256 _rate, uint256 _bonus) OneRateSale(_token, _rate, _bonus) MintingSale(_mintableToken) public {
 
     }
 }
