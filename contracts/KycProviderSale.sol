@@ -28,6 +28,10 @@ contract KycProviderSale is AbstractSale, HasInvestor {
 		return false;
 	}
 
+	function getKycProviders() view public returns (KycProvider[]) {
+		return kycProviders;
+	}
+
 	function setKycProviders(KycProvider[] _kycProviders) onlyOwner public {
 		kycProviders = _kycProviders;
 	}
