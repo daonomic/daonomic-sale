@@ -7,24 +7,28 @@ import "./AbstractSale.sol";
 
 
 contract KycProviderSale is AbstractSale, HasInvestor {
-	KycProvider public kycProvider;
+	KycProvider[] public kycProviders;
 
-	constructor(KycProvider _kycProvider) public {
-		kycProvider = _kycProvider;
+	constructor(KycProvider[] _kycProviders) public {
+		kycProviders = _kycProviders;
 	}
 
 	function checkPurchaseValid(address buyer, uint256 sold, uint256 bonus) internal {
 		super.checkPurchaseValid(buyer, sold, bonus);
-		Investor memory investor = kycProvider.resolve(buyer);
-		require(investor.jurisdiction != 0, "investor is not verified by KycProvider");
+		require(canBuy(buyer), "investor is not verified by KycProviders");
 	}
 
 	function canBuy(address _address) constant public returns (bool) {
-		Investor memory investor = kycProvider.resolve(_address);
-		return investor.jurisdiction != 0;
+		for (uint i = 0; i < kycProviders.length; i++) {
+			Investor memory investor = kycProviders[i].resolve(_address);
+			if (investor.jurisdiction != 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	function setKycProvider(KycProvider _kycProvider) onlyOwner public {
-		kycProvider = _kycProvider;
+	function setKycProviders(KycProvider[] _kycProviders) onlyOwner public {
+		kycProviders = _kycProviders;
 	}
 }

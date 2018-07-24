@@ -14,7 +14,7 @@ contract("KycProviderSale", accounts => {
   beforeEach(async function() {
     kyc1 = await TestKyc.new(accounts[1], 1, "");
     kyc2 = await TestKyc.new(accounts[2], 1, "");
-    sale = await Sale.new(0, bn("10000000000000000000"), 0, kyc1.address);
+    sale = await Sale.new(0, bn("10000000000000000000"), 0, [kyc1.address]);
   });
 
   function bn(value) {
@@ -39,7 +39,7 @@ contract("KycProviderSale", accounts => {
   });
 
   it("should let owner change kyc provider", async () => {
-    await sale.setKycProvider(kyc2.address);
+    await sale.setKycProviders([kyc2.address]);
     await sale.sendTransaction({from: accounts[2], value: 5});
     await expectThrow(
         sale.sendTransaction({from: accounts[1], value: 5})
@@ -48,7 +48,7 @@ contract("KycProviderSale", accounts => {
 
   it("should not let others change kyc provider", async () => {
     await expectThrow(
-      sale.setKycProvider(kyc2.address, {from: accounts[1]})
+      sale.setKycProviders([kyc2.address], {from: accounts[1]})
     );
   });
 });

@@ -10,7 +10,7 @@ import "../../contracts/KycProviderSale.sol";
 
 
 contract KycProviderSaleMock is OwnableImpl, SecuredImpl, OneRateSale, LoggingSale, KycProviderSale {
-	constructor(address _token, uint256 _rate, uint256 _bonus, KycProvider _kycProvider) KycProviderSale(_kycProvider) OneRateSale(_token, _rate, _bonus) public {
+	constructor(address _token, uint256 _rate, uint256 _bonus, KycProvider[] _kycProviders) KycProviderSale(_kycProviders) OneRateSale(_token, _rate, _bonus) public {
 
 	}
 }
