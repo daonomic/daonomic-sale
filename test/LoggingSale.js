@@ -28,7 +28,7 @@ contract("LoggingSale", accounts => {
     var Purchase = sale.Purchase({});
 
 	var beneficiary = randomAddress();
-    await sale.receiveWithData(beneficiary, {from: accounts[0], value: 100});
+    await sale.receiveFrom(beneficiary, {from: accounts[0], value: 100});
     var purchase = await awaitEvent(Purchase);
     assert.equal(purchase.args.buyer, beneficiary);
     assert.equal(purchase.args.value, 100);

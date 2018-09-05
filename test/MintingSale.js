@@ -35,7 +35,7 @@ contract("MintingSale", accounts => {
     await token.transferRole("minter", sale.address);
 
 	var beneficiary = randomAddress();
-    await sale.receiveWithData(beneficiary, {from: accounts[1], value: 5});
+    await sale.receiveFrom(beneficiary, {from: accounts[1], value: 5});
     assert.equal(await token.totalSupply(), 50);
     assert.equal(await token.balanceOf(beneficiary), 50);
   });

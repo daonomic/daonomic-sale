@@ -16,12 +16,11 @@ contract AbstractSale is Ownable, Sale, Secured {
         onReceivePrivate(msg.sender, address(0), msg.value, "");
     }
 
-    function receiveWithData(bytes _data) payable public {
-        require(_data.length == 20);
-        onReceivePrivate(address(toBytes20(_data, 0)), address(0), msg.value, "");
+    function receiveFrom(address _buyer) payable public {
+        onReceivePrivate(_buyer, address(0), msg.value, "");
     }
 
-    function receiveFrom(address _buyer, bytes _txId, uint _value, uint8 _v, bytes32 _r, bytes32 _s) payable public {
+    function receiveFromSigned(address _buyer, bytes _txId, uint _value, uint8 _v, bytes32 _r, bytes32 _s) payable public {
         var hash = keccak256(_value, msg.sender);
         require(ecrecover(hash, _v, _r, _s) == getRole("signer"));
         onReceivePrivate(_buyer, address(0), _value, _txId);
@@ -64,14 +63,6 @@ contract AbstractSale is Ownable, Sale, Secured {
 
     function canBuy(address _address) constant public returns (bool) {
         return true;
-    }
-
-    function toBytes20(bytes b, uint256 _start) pure private returns (bytes20 result) {
-        require(_start + 20 <= b.length);
-        assembly {
-            let from := add(_start, add(b, 0x20))
-            result := mload(from)
-        }
     }
 
     function withdrawEth(address _to, uint256 _value) onlyOwner public {
