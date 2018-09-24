@@ -5,7 +5,13 @@ import "./kyberContracts/KyberNetworkProxyInterface.sol";
 
 contract KyberNetworkWrapper {
 
+  event ETHReceived(address indexed sender, uint amount);
+
   Token constant internal ETH_TOKEN_ADDRESS = Token(0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee);
+
+  function() payable {
+    emit ETHReceived(msg.sender, msg.value);
+  }
 
   /// @dev Get the rate for user's token
   /// @param _kyberProxy KyberNetworkProxyInterface address
@@ -27,6 +33,7 @@ contract KyberNetworkWrapper {
 
     return (expectedRate, slippageRate);
   }
+
   /// @dev Acquires selling token using Kyber Network's supported token
   /// @param _kyberProxy KyberNetworkProxyInterface address
   /// @param _sale Sale address

@@ -5,7 +5,7 @@ import "@daonomic/interfaces/contracts/Token.sol";
 
 
 /// @title Kyber Network interface
-interface KyberNetworkProxyInterface {
+contract KyberNetworkProxyInterface {
   function maxGasPrice() public view returns(uint);
   function getUserCapInWei(address user) public view returns(uint);
   function getUserCapInTokenWei(address user, Token token) public view returns(uint);
