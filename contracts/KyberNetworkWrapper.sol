@@ -13,6 +13,10 @@ contract KyberNetworkWrapper {
     emit ETHReceived(msg.sender, msg.value);
   }
 
+  function getETHRate(AbstractSale _sale) public view returns (uint) {
+    return _sale.getRate(address(0));
+  }
+
   /// @dev Get the rate for user's token
   /// @param _kyberProxy KyberNetworkProxyInterface address
   /// @param token ERC20 token address
