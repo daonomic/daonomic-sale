@@ -13,8 +13,10 @@ contract KyberNetworkWrapper {
     emit ETHReceived(msg.sender, msg.value);
   }
 
-  function getETHPrice(AbstractSale _sale) public view returns (uint) {
-    return _sale.getRate(address(0));
+  /// @dev Get the ETH price of the selling token (one full token, not cent)
+  function getETHPrice(AbstractSale _sale) public view returns (uint ethPrice) {
+    uint256 rate = _sale.getRate(address(0));
+    ethPrice = 1 * 10 ** 36 / rate;
   }
 
   /// @dev Get the rate for user's token
@@ -30,10 +32,10 @@ contract KyberNetworkWrapper {
   view
   returns (uint, uint)
   {
-    uint256 ethRate = _sale.getRate(address(0));
+    uint256 ethPrice = getETHPrice(_sale);
 
     // Get the expected and slippage rates of the token to ETH
-    (uint expectedRate, uint slippageRate) = _kyberProxy.getExpectedRate(token, ETH_TOKEN_ADDRESS, ethRate);
+    (uint expectedRate, uint slippageRate) = _kyberProxy.getExpectedRate(token, ETH_TOKEN_ADDRESS, ethPrice);
 
     return (expectedRate, slippageRate);
   }

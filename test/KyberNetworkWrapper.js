@@ -41,4 +41,18 @@ contract("KyberNetworkWrapper", accounts => {
     assert.equal(await kyberToken.allowance(wrapper.address, kyber.address), 300);
   });
 
+  it("should return eth price", async () => {
+    var sale = await MintingSaleMock.new(token.address, 0, bn("10000000000000000000"), 0);
+    await token.transferRole("minter", sale.address);
+
+    var kyber = await TestKyberNetwork.new();
+    await kyber.sendTransaction({from: accounts[5], value: 100000});
+
+    var wrapper = await KyberNetworkWrapper.new();
+    await kyberToken.approve(wrapper.address, 300, {from: accounts[1]});
+
+    var price = await wrapper.getETHPrice(sale.address);
+    assert.equal(price, 100000000000000000);
+  });
+
 });
