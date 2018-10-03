@@ -35,7 +35,7 @@ contract("TransferringSale", accounts => {
     await token.mint(sale.address, 10000000000000000);
 
 	var beneficiary = randomAddress();
-    await sale.receiveFrom(beneficiary, {from: accounts[1], value: 5});
+    await sale.buyTokens(beneficiary, {from: accounts[1], value: 5});
     assert.equal(await token.totalSupply(), 10000000000000000);
     assert.equal(await token.balanceOf(beneficiary), 50);
   });

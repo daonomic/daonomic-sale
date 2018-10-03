@@ -16,11 +16,11 @@ contract AbstractSale is Ownable, Sale, Secured {
         onReceivePrivate(msg.sender, address(0), msg.value, "");
     }
 
-    function receiveFrom(address _buyer) payable public {
+    function buyTokens(address _buyer) payable public {
         onReceivePrivate(_buyer, address(0), msg.value, "");
     }
 
-    function receiveFromSigned(address _buyer, bytes _txId, uint _value, uint8 _v, bytes32 _r, bytes32 _s) payable public {
+    function buyTokensSigned(address _buyer, bytes _txId, uint _value, uint8 _v, bytes32 _r, bytes32 _s) payable public {
         var hash = keccak256(_value, msg.sender);
         require(ecrecover(hash, _v, _r, _s) == getRole("signer"));
         onReceivePrivate(_buyer, address(0), _value, _txId);

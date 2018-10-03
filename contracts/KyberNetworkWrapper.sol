@@ -13,7 +13,7 @@ contract KyberNetworkWrapper {
     emit ETHReceived(msg.sender, msg.value);
   }
 
-  function getETHRate(AbstractSale _sale) public view returns (uint) {
+  function getETHPrice(AbstractSale _sale) public view returns (uint) {
     return _sale.getRate(address(0));
   }
 
@@ -79,7 +79,7 @@ contract KyberNetworkWrapper {
     // Swap user's token to ETH to send to Sale contract
     uint userETH = _kyberProxy.tradeWithHint(token, tokenQty, ETH_TOKEN_ADDRESS, address(this), maxDestQty, minRate, walletId, "");
 
-    _sale.receiveFrom.value(userETH)(msg.sender);
+    _sale.buyTokens.value(userETH)(msg.sender);
   }
 
 }
