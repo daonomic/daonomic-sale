@@ -30,9 +30,9 @@ contract("KyberNetworkWrapper", accounts => {
     await kyber.sendTransaction({from: accounts[5], value: 100000});
 
     var wrapper = await KyberNetworkWrapper.new();
-    await kyberToken.approve(wrapper.address, 300, {from: accounts[1]});
+    await kyberToken.approve(wrapper.address, 400, {from: accounts[1]});
 
-    await wrapper.tradeAndBuy(kyber.address, sale.address, kyberToken.address, 300, 0, 0, "0x0000000000000000000000000000000000000000", {from: accounts[1]});
+    await wrapper.tradeAndBuy(kyber.address, sale.address, kyberToken.address, 400, 0, 0, "0x0000000000000000000000000000000000000000", {from: accounts[1]});
 
     assert.equal(await token.totalSupply(), 10000);
     assert.equal(await token.balanceOf(accounts[1]), 10000);

@@ -5,6 +5,7 @@ import "./kyberContracts/KyberNetworkProxyInterface.sol";
 
 contract KyberNetworkWrapper {
 
+  event SwapTokenChange(uint startTokenBalance, uint change);
   event ETHReceived(address indexed sender, uint amount);
 
   Token constant internal ETH_TOKEN_ADDRESS = Token(0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee);
@@ -82,6 +83,25 @@ contract KyberNetworkWrapper {
     uint userETH = _kyberProxy.tradeWithHint(token, tokenQty, ETH_TOKEN_ADDRESS, address(this), maxDestQty, minRate, walletId, "");
 
     _sale.buyTokens.value(userETH)(msg.sender);
+
+    // Return change to player if any
+    calcChange(token, startTokenBalance);
   }
 
+  /// @dev Calculates token change and returns to payer
+  /// @param token ERC20 token address
+  /// @param startTokenBalance Starting token balance of the payer's wallet
+  function calcChange(Token token, uint startTokenBalance) private {
+    // Calculate change of player
+    uint change = token.balanceOf(this);
+
+    // Send back change if change is > 0
+    if (change > 0) {
+      // Log the exchange event
+      emit SwapTokenChange(startTokenBalance, change);
+
+      // Transfer change back to player
+      token.transfer(msg.sender, change);
+    }
+  }
 }
