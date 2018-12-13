@@ -6,7 +6,7 @@ function createNetwork(name) {
   return {
     provider: () => createProvider(json.key, json.url),
     from: json.address,
-    gas: 4000000,
+    gas: 800000,
     gasPrice: gasPrice,
     network_id: json.network_id
   };
@@ -39,7 +39,8 @@ function createProvider(key, url) {
 
 module.exports = {
   networks: {
-    ropsten: createNetwork("ropsten")
+    ropsten: createNetwork("ropsten"),
+    mainnet: createNetwork("mainnet")
   },
   solc: {
     optimizer: {
