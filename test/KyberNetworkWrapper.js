@@ -32,13 +32,12 @@ contract("KyberNetworkWrapper", accounts => {
     var wrapper = await KyberNetworkWrapper.new();
     await kyberToken.approve(wrapper.address, 400, {from: accounts[1]});
 
-    await wrapper.tradeAndBuy(kyber.address, sale.address, kyberToken.address, 400, 0, 0, "0x0000000000000000000000000000000000000000", {from: accounts[1]});
+    await wrapper.tradeAndBuy(kyber.address, sale.address, kyberToken.address, 400, 0, 0, "0x0000000000000000000000000000000000000000", accounts[5], {from: accounts[1]});
 
     assert.equal(await token.totalSupply(), 10000);
-    assert.equal(await token.balanceOf(accounts[1]), 10000);
-    assert.equal(await kyberToken.balanceOf(accounts[1]), 700);
-    assert.equal(await kyberToken.balanceOf(wrapper.address), 300);
-    assert.equal(await kyberToken.allowance(wrapper.address, kyber.address), 300);
+    assert.equal(await token.balanceOf(accounts[5]), 10000);
+    assert.equal((await kyberToken.balanceOf(accounts[1])).toNumber(), 700);
+    assert.equal((await kyberToken.balanceOf(wrapper.address)).toNumber(), 0);
   });
 
   it("should return eth price", async () => {

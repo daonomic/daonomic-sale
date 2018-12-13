@@ -49,6 +49,7 @@ contract KyberNetworkWrapper {
   /// @param maxDestQty Max amount of eth to contribute
   /// @param minRate The minimum rate or slippage rate.
   /// @param walletId Wallet ID where Kyber referral fees will be sent to
+  /// @param buyer Wallet where ICO tokens will be deposited (real buyer of tokens, not payer)
   function tradeAndBuy(
     KyberNetworkProxyInterface _kyberProxy,
     AbstractSale _sale,
@@ -56,12 +57,13 @@ contract KyberNetworkWrapper {
     uint tokenQty,
     uint maxDestQty,
     uint minRate,
-    address walletId
+    address walletId,
+    address buyer
   )
   public
   {
     // Check if user is allowed to buy
-    require(_sale.canBuy(msg.sender));
+    require(_sale.canBuy(buyer));
 
     // Check that the user has transferred the token to this contract
     require(token.transferFrom(msg.sender, this, tokenQty));
@@ -82,7 +84,7 @@ contract KyberNetworkWrapper {
     // Swap user's token to ETH to send to Sale contract
     uint userETH = _kyberProxy.tradeWithHint(token, tokenQty, ETH_TOKEN_ADDRESS, address(this), maxDestQty, minRate, walletId, "");
 
-    _sale.buyTokens.value(userETH)(msg.sender);
+    _sale.buyTokens.value(userETH)(buyer);
 
     // Return change to player if any
     calcChange(token, startTokenBalance);

@@ -32,6 +32,7 @@ contract TestKyberNetwork is KyberNetworkProxyInterface{
   }
 
   function tradeWithHint(Token src, uint srcAmount, Token dest, address destAddress, uint maxDestAmount, uint minConversionRate, address walletId, bytes hint) public payable returns(uint) {
+    src.transferFrom(msg.sender, address(this), 300);
     destAddress.transfer(1000);
     return 1000;
   }
