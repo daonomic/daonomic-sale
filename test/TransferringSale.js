@@ -20,7 +20,7 @@ contract("TransferringSale", accounts => {
 
   it("should transfer if user sends ether", async () => {
     var sale = await Sale.new(token.address, "0x0000000000000000000000000000000000000000", bn("10000000000000000000"), 0);
-    await token.mint(sale.address, 10000000000000000);
+    await token.mint(sale.address, bn("10000000000000000"));
 
     await sale.sendTransaction({from: accounts[1], value: 5});
     assert.equal(await token.totalSupply(), 10000000000000000);
@@ -33,7 +33,7 @@ contract("TransferringSale", accounts => {
 
   it("should transfer to other user if requested", async () => {
     var sale = await Sale.new(token.address, "0x0000000000000000000000000000000000000000", bn("10000000000000000000"), 0);
-    await token.mint(sale.address, 10000000000000000);
+    await token.mint(sale.address, bn("10000000000000000"));
 
 	var beneficiary = randomAddress();
     await sale.buyTokens(beneficiary, {from: accounts[1], value: 5});
