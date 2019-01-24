@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 
 import "./AbstractSale.sol";
@@ -12,7 +12,7 @@ contract RatesChangingSale is AbstractSale {
 		uint256 rate;
 	}
 
-	function getRate(address _token) constant public returns (uint256) {
+	function getRate(address _token) view public returns (uint256) {
 		return rates[_token];
 	}
 
@@ -26,7 +26,7 @@ contract RatesChangingSale is AbstractSale {
 		}
 	}
 
-	function setRates(Rate[] _rates) onlyOwner public {
+	function setRates(Rate[] memory _rates) onlyOwner public {
 		for (uint i = 0; i < _rates.length; i++) {
 			setRate(_rates[i].token, _rates[i].rate);
 		}
@@ -35,16 +35,16 @@ contract RatesChangingSale is AbstractSale {
 	event XPubChange(address token, string xpub);
 	mapping(address => string) xpubs;
 
-	function setXPub(address _token, string _xpub) onlyOwner public {
+	function setXPub(address _token, string memory _xpub) onlyOwner public {
 		setXPubInternal(_token, _xpub);
 	}
 
-	function setXPubInternal(address _token, string _xpub) internal {
+	function setXPubInternal(address _token, string memory _xpub) internal {
 		xpubs[_token] = _xpub;
 		emit XPubChange(_token, _xpub);
 	}
 
-	function getXPub(address token) constant public returns (string) {
+	function getXPub(address token) view public returns (string memory) {
 		return xpubs[token];
 	}
 }

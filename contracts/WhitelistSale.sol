@@ -1,5 +1,4 @@
-pragma solidity ^0.4.21;
-pragma experimental ABIEncoderV2;
+pragma solidity ^0.5.0;
 
 
 import "./AbstractSale.sol";
@@ -9,7 +8,7 @@ import "@daonomic/interfaces/contracts/Whitelist.sol";
 contract WhitelistSale is AbstractSale {
 	Whitelist[] public whitelists;
 
-	constructor(Whitelist[] _whitelists) public {
+	constructor(Whitelist[] memory _whitelists) public {
 		whitelists = _whitelists;
 	}
 
@@ -18,7 +17,7 @@ contract WhitelistSale is AbstractSale {
 		require(canBuy(buyer), "investor is not whitelisted");
 	}
 
-	function canBuy(address _address) constant public returns (bool) {
+	function canBuy(address _address) view public returns (bool) {
 		for (uint i = 0; i < whitelists.length; i++) {
 			if (whitelists[i].isInWhitelist(_address)) {
 				return true;
@@ -27,11 +26,11 @@ contract WhitelistSale is AbstractSale {
 		return false;
 	}
 
-	function getWhitelists() view public returns (Whitelist[]) {
+	function getWhitelists() view public returns (Whitelist[] memory) {
 		return whitelists;
 	}
 
-	function setWhitelists(Whitelist[] _whitelists) onlyOwner public {
+	function setWhitelists(Whitelist[] memory _whitelists) onlyOwner public {
 		whitelists = _whitelists;
 	}
 }

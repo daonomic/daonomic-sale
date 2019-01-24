@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.0;
 
 import "./AbstractSale.sol";
 
@@ -6,7 +6,7 @@ contract BonusChangingSale is AbstractSale {
 	event BonusChange(uint256 bonus);
 	uint256 public bonus;
 
-	function getBonus(uint256 sold) constant public returns (uint256) {
+	function getBonus(uint256 sold) view public returns (uint256) {
 		return sold.mul(bonus).div(100);
 	}
 

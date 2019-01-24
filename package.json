@@ -22,11 +22,11 @@
   },
   "homepage": "https://github.com/daonomic/sale",
   "dependencies": {
-    "@daonomic/util": "~0.1",
-    "@daonomic/interfaces": "0.1.9"
+    "@daonomic/util": "~0.2",
+    "@daonomic/interfaces": "~0.2"
   },
   "devDependencies": {
-    "@daonomic/tokens": "0.1.16",
-    "@daonomic/tests-common": "0.1.5"
+    "@daonomic/tokens": "~0.2",
+    "@daonomic/tests-common": "~0.2"
   }
 }

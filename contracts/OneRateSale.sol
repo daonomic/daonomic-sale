@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.0;
 
 
 import "./AbstractSale.sol";
@@ -16,7 +16,7 @@ contract OneRateSale is AbstractSale {
         emit RateAdd(_token);
     }
 
-    function getRate(address _token) constant public returns (uint256) {
+    function getRate(address _token) view public returns (uint256) {
         if (_token == token) {
             return rate;
         } else {
@@ -24,7 +24,7 @@ contract OneRateSale is AbstractSale {
         }
     }
 
-    function getBonus(uint256 sold) constant public returns (uint256) {
+    function getBonus(uint256 sold) view public returns (uint256) {
         return sold.mul(bonus).div(100);
     }
 }

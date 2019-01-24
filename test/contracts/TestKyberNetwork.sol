@@ -1,9 +1,9 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
 import "../../contracts/kyberContracts/KyberNetworkProxyInterface.sol";
 
 contract TestKyberNetwork is KyberNetworkProxyInterface{
-  function () payable {
+  function () payable external {
 
   }
 
@@ -31,7 +31,7 @@ contract TestKyberNetwork is KyberNetworkProxyInterface{
     return (0, 0);
   }
 
-  function tradeWithHint(Token src, uint srcAmount, Token dest, address destAddress, uint maxDestAmount, uint minConversionRate, address walletId, bytes hint) public payable returns(uint) {
+  function tradeWithHint(Token src, uint srcAmount, Token dest, address payable destAddress, uint maxDestAmount, uint minConversionRate, address walletId, bytes memory hint) public payable returns(uint) {
     src.transferFrom(msg.sender, address(this), 300);
     destAddress.transfer(1000);
     return 1000;

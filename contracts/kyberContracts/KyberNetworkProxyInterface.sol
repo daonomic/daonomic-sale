@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.5.0;
 
 
 import "@daonomic/interfaces/contracts/Token.sol";
@@ -15,6 +15,6 @@ contract KyberNetworkProxyInterface {
   function getExpectedRate(Token src, Token dest, uint srcQty) public view
   returns (uint expectedRate, uint slippageRate);
 
-  function tradeWithHint(Token src, uint srcAmount, Token dest, address destAddress, uint maxDestAmount,
-    uint minConversionRate, address walletId, bytes hint) public payable returns(uint);
+  function tradeWithHint(Token src, uint srcAmount, Token dest, address payable destAddress, uint maxDestAmount,
+    uint minConversionRate, address walletId, bytes memory hint) public payable returns(uint);
 }

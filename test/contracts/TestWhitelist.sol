@@ -1,5 +1,4 @@
-pragma solidity ^0.4.23;
-pragma experimental ABIEncoderV2;
+pragma solidity ^0.5.0;
 
 
 import "@daonomic/interfaces/contracts/Whitelist.sol";

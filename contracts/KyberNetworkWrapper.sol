@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
 import "./AbstractSale.sol";
 import "./kyberContracts/KyberNetworkProxyInterface.sol";
@@ -10,7 +10,7 @@ contract KyberNetworkWrapper {
 
   Token constant internal ETH_TOKEN_ADDRESS = Token(0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee);
 
-  function() payable {
+  function() payable external {
     emit ETHReceived(msg.sender, msg.value);
   }
 
@@ -66,20 +66,20 @@ contract KyberNetworkWrapper {
     require(_sale.canBuy(buyer));
 
     // Check that the user has transferred the token to this contract
-    require(token.transferFrom(msg.sender, this, tokenQty));
+    require(token.transferFrom(msg.sender, address(this), tokenQty));
 
     // Get the starting token balance of the wrapper's wallet
-    uint startTokenBalance = token.balanceOf(this);
+    uint startTokenBalance = token.balanceOf(address(this));
 
     // Mitigate ERC20 Approve front-running attack, by initially setting
     // allowance to 0
-    require(token.approve(_kyberProxy, 0));
+    require(token.approve(address(_kyberProxy), 0));
 
     // Verify that the token balance has not decreased from front-running
-    require(token.balanceOf(this) == startTokenBalance);
+    require(token.balanceOf(address(this)) == startTokenBalance);
 
     // Once verified, set the token allowance to tokenQty
-    require(token.approve(_kyberProxy, tokenQty));
+    require(token.approve(address(_kyberProxy), tokenQty));
 
     // Swap user's token to ETH to send to Sale contract
     uint userETH = _kyberProxy.tradeWithHint(token, tokenQty, ETH_TOKEN_ADDRESS, address(this), maxDestQty, minRate, walletId, "");
@@ -95,7 +95,7 @@ contract KyberNetworkWrapper {
   /// @param startTokenBalance Starting token balance of the payer's wallet
   function calcChange(Token token, uint startTokenBalance) private {
     // Calculate change of player
-    uint change = token.balanceOf(this);
+    uint change = token.balanceOf(address(this));
 
     // Send back change if change is > 0
     if (change > 0) {
