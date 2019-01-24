@@ -4,9 +4,13 @@ var KyberNetworkWrapper = artifacts.require('KyberNetworkWrapper.sol');
 var TestKyberNetwork = artifacts.require('TestKyberNetwork.sol');
 
 const tests = require("@daonomic/tests-common");
-const awaitEvent = tests.awaitEvent;
 const expectThrow = tests.expectThrow;
 const randomAddress = tests.randomAddress;
+
+var BN = web3.utils.BN;
+function bn(v) {
+    return new BN(v);
+}
 
 contract("KyberNetworkWrapper", accounts => {
   let token;
@@ -18,12 +22,8 @@ contract("KyberNetworkWrapper", accounts => {
     kyberToken.mint(accounts[1], 1000);
   });
 
-  function bn(value) {
-    return new web3.BigNumber(value);
-  }
-
   it("should transfer ether on behalf of the user", async () => {
-    var sale = await MintingSaleMock.new(token.address, 0, bn("10000000000000000000"), 0);
+    var sale = await MintingSaleMock.new(token.address, "0x0000000000000000000000000000000000000000", bn("10000000000000000000"), 0);
     await token.transferRole("minter", sale.address);
 
     var kyber = await TestKyberNetwork.new();
@@ -41,7 +41,7 @@ contract("KyberNetworkWrapper", accounts => {
   });
 
   it("should return eth price", async () => {
-    var sale = await MintingSaleMock.new(token.address, 0, bn("10000000000000000000"), 0);
+    var sale = await MintingSaleMock.new(token.address, "0x0000000000000000000000000000000000000000", bn("10000000000000000000"), 0);
     await token.transferRole("minter", sale.address);
 
     var kyber = await TestKyberNetwork.new();

@@ -2,9 +2,13 @@ var Sale = artifacts.require('WhitelistSaleMock.sol');
 var TestWhitelist = artifacts.require('TestWhitelist.sol');
 
 const tests = require("@daonomic/tests-common");
-const awaitEvent = tests.awaitEvent;
 const expectThrow = tests.expectThrow;
 const randomAddress = tests.randomAddress;
+
+var BN = web3.utils.BN;
+function bn(v) {
+    return new BN(v);
+}
 
 contract("WhitelistSale", accounts => {
   let whitelist1;
@@ -14,18 +18,14 @@ contract("WhitelistSale", accounts => {
   beforeEach(async function() {
     whitelist1 = await TestWhitelist.new(accounts[1]);
     whitelist2 = await TestWhitelist.new(accounts[2]);
-    sale = await Sale.new(0, bn("10000000000000000000"), 0, [whitelist1.address]);
+    sale = await Sale.new("0x0000000000000000000000000000000000000000", bn("10000000000000000000"), 0, [whitelist1.address]);
   });
-
-  function bn(value) {
-    return new web3.BigNumber(value);
-  }
 
   it("should let buy if buyer is confirmed by Whitelist", async () => {
     var Purchase = sale.Purchase({});
 
-    await sale.sendTransaction({from: accounts[1], value: 5});
-    var purchase = await awaitEvent(Purchase);
+    var tx = await sale.sendTransaction({from: accounts[1], value: 5});
+    var purchase = tests.findLog(tx, "Purchase");
     assert.equal(purchase.args.buyer, accounts[1]);
     assert.equal(purchase.args.value, 5);
     assert.equal(purchase.args.sold, 50);

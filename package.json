@@ -27,6 +27,6 @@
   },
   "devDependencies": {
     "@daonomic/tokens": "0.1.16",
-    "@daonomic/tests-common": "~0.1"
+    "@daonomic/tests-common": "0.1.5"
   }
 }
