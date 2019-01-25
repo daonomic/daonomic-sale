@@ -9,10 +9,16 @@ contract Sale {
         AMOUNT,
         TIME,
         REFERRAL,
+        RESERVED1,
+        RESERVED2,
+        RESERVED3,
+        RESERVED4,
+        RESERVED5,
+        RESERVED6,
         OTHER
     }
 
-    struct Bonus {
+    struct BonusItem {
         uint256 value;
         BonusType bonusType;
     }
@@ -24,7 +30,7 @@ contract Sale {
     /**
      * @dev This event should be emitted when user buys something
      */
-//    event Purchase(address indexed buyer, address token, uint256 value, uint256 sold, Bonus[] bonus, bytes txId);
+    event Bonus(uint256 value, BonusType bonusType);
     /**
      * @dev Should be emitted if new payment method added
      */
